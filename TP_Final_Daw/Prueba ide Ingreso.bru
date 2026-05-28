@@ -1,0 +1,23 @@
+meta {
+  name: Prueba ide Ingreso
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  
+  {
+    "nombreUsuario": "juli_admin",
+    "password": "123"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Cliente no dar Baja si tiene un Proyecto
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/clientes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1bGlfYWRtaW4iLCJzdWIiOjEsInJvbCI6ImFkbWluIiwiaWF0IjoxNzc5Nzg3MzI4LCJleHAiOjE3Nzk3OTA5Mjh9.gdjOFXKxcQN4t94h1Y8kKQ1VZAF65oYcbgIiGpE_thc
+}
+
+body:json {
+  {
+    "nombreCliente": "Cliente Test", 
+    "estado": "ACTIVO"
+  } 
+}
+
+settings {
+  encodeUrl: true
+}

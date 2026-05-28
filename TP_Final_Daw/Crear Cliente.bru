@@ -1,0 +1,22 @@
+meta {
+  name: Crear Cliente
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/clientes
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombreCliente": "Empresa Bodega Juli",
+    "Estado": "ACTIVO"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

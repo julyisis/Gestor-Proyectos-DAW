@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "TP_Final_Daw",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
