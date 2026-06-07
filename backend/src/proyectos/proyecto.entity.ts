@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn} from "typeorm";
 import {Cliente} from "../clientes/cliente.entity";
 import { Tarea } from '../tareas/tarea.entity';
 
@@ -12,7 +12,7 @@ export class Proyecto {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ unique: true, nullable: false})
+    @Column({ name:'nombre', unique: true, nullable: false})
     nombreProyecto!: string;
 
     @Column({
@@ -23,6 +23,7 @@ export class Proyecto {
     estado!: EstadosProyectos;
 
     @ManyToOne(() => Cliente, (cliente) => cliente.proyectos,{nullable: true})
+    @JoinColumn({name: "id_cliente"})
     cliente!: Cliente;
 
     @OneToMany(() => Tarea, (tarea) => tarea.proyecto)

@@ -11,7 +11,7 @@ export class Usuario {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ unique: true, nullable: false })
+    @Column({ name: 'nombre', unique: true, nullable: false })
     nombreUsuario!: string;
 
     @Column({
@@ -21,7 +21,7 @@ export class Usuario {
     })
     estado!: EstadosUsuarios;
 
-    @Column({ select: false })
+    @Column({ name: 'clave', select: false })
     password!: string;
 
     @Column({
