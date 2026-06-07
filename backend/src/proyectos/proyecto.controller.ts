@@ -1,10 +1,12 @@
-import{Controller, Get, Post, Body, UseGuards} from '@nestjs/common';
+import{Controller, Get, Post, Body, UseGuards, Res} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
+
 import {ProyectoService} from './proyecto.service';
 import {CreateProyectoDto} from './dto/create-proyecto.dto';
 import {RolesGuard} from '../usuarios/guards/roles.guard';
 import {Role} from '../usuarios/usuario.roles.enum';
 import { Roles } from '../usuarios/roles.decorator';
-import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 
 @Controller('proyectos')
 
@@ -23,5 +25,17 @@ export class ProyectoController {
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     crear(@Body() createProyectoDto: CreateProyectoDto) {
         return this.proyectoService.create(createProyectoDto);
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard ('jwt'))
+    @Get('export/csv')
+    async exportarProyectosCsv(@Res() res: any): Promise<void> {
+
+        const csv = await this.proyectoService.exportarProyectosCsv();
+    
+        res.header('Content-Type', 'text/csv');
+        res.attachment('proyectos.csv');
+        res.send(csv);
     }
 }

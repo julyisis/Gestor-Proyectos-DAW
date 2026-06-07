@@ -12,7 +12,7 @@ export class Cliente {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ unique: true, nullable: false})
+    @Column({ name:'nombre', unique: true, nullable: false})
     nombreCliente!: string;
 
     @Column({

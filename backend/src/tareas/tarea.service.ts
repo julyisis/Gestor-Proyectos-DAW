@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Tarea } from "./tarea.entity";
+import { Tarea, EstadosTareas } from "./tarea.entity";
 import { Proyecto } from "../proyectos/proyecto.entity";
 import { UpdateTareaDto } from "./dto/update-tarea.dto";
 import { CreateTareaDto } from "./dto/create-tarea.dto";
-import { EstadosTareas } from "./tarea.entity";
+import { Parser } from 'json2csv';
 
 @Injectable()
 export class TareasService {
@@ -59,4 +59,24 @@ export class TareasService {
 
         await this.tareasRepository.save(tarea);
     }
+
+    async exportarTareasCsv(): Promise<string> {
+    const tareas = await this.tareasRepository.find({
+        relations: ['proyecto'],
+    });
+
+    const datos = tareas.map((tarea) => ({
+        id: tarea.id,
+        descripcion: tarea.descripcion,
+        estado: tarea.estado,
+        idProyecto: tarea.proyecto?.id,
+        proyecto: tarea.proyecto?.nombreProyecto,
+    }));
+
+    const parser = new Parser({
+        fields: ['id', 'descripcion', 'estado', 'idProyecto', 'proyecto'],
+    });
+
+    return parser.parse(datos);
+}
 }
