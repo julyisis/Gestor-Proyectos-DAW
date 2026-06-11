@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario, EstadosUsuarios } from './usuario.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
@@ -46,7 +47,12 @@ export class UsuariosService {
             throw new UnauthorizedException('El usuario esta Inactivo');
         }
 
-        if (usuario.password !== password) {
+        const passwordValida = await bcrypt.compare(
+            password,
+            usuario.password
+        );
+
+        if (!passwordValida) {
             throw new UnauthorizedException('Credenciales Invalidas');
         }
 
