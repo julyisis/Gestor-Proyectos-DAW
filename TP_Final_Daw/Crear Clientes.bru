@@ -5,15 +5,19 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/clientes
+  url: {{baseUrl}}/clientes
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "nombreCliente" : "Empresa Bodega Juli",
-    "estado" : "ACTIVO"
+    "nombreCliente": "Empresa Bodega Juli",
+    "estado": "ACTIVO"
   }
 }
 

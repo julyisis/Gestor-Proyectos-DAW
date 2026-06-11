@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Tarea, EstadosTareas } from "./tarea.entity";
@@ -55,13 +55,38 @@ export class TareasService {
             );
         }
 
+        if (dto.estado === EstadosTareas.BAJA) {
+            throw new ForbiddenException('No tiene permiso para dar de baja la tarea');
+        }
+
         this.tareasRepository.merge(tarea, dto);
 
         await this.tareasRepository.save(tarea);
     }
 
-    async exportarTareasCsv(): Promise<string> {
+    async darDeBaja(idTarea: number): Promise<void> {
+        const tarea = await this.tareasRepository.findOne({
+            where: { id: idTarea }
+        });
+
+        if (!tarea) {
+            throw new BadRequestException(
+                "La tarea indicada no existe"
+            );
+        }
+
+        await this.tareasRepository.update(idTarea, { estado: EstadosTareas.BAJA });
+    }
+
+    async listarPorProyecto(idProyecto: number): Promise<Tarea[]> {
+        return this.tareasRepository.find({
+            where: { idProyecto },
+        });
+    }
+
+    async exportarTareasCsv(idProyecto: number): Promise<string> {
     const tareas = await this.tareasRepository.find({
+        where: { idProyecto },
         relations: ['proyecto'],
     });
 

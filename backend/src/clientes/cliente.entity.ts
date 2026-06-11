@@ -1,7 +1,6 @@
 import { Entity,PrimaryGeneratedColumn,Column,OneToMany} from "typeorm";
 import {Proyecto} from "../proyectos/proyecto.entity";
 
-
 export enum EstadosClientes {
     ACTIVO = 'ACTIVO',
     BAJA   = 'BAJA',
@@ -12,12 +11,19 @@ export class Cliente {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ name:'nombre', unique: true, nullable: false})
+    @Column({ name:'nombreCliente', unique: true, nullable: false})
     nombreCliente!: string;
+
+    @Column({ nullable: true })
+    telefono!: string;
+
+    @Column({ nullable: true })
+    email!: string;
 
     @Column({
         type: 'enum',
         enum: EstadosClientes,
+        enumName: 'clientes_estado_enum',
         default: EstadosClientes.ACTIVO
 })
 
@@ -26,4 +32,3 @@ export class Cliente {
     @OneToMany(() => Proyecto, (proyecto) => proyecto.cliente)
     proyectos!: Proyecto[];
 }
-

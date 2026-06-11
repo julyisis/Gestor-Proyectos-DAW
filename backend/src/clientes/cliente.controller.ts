@@ -1,6 +1,7 @@
-import { Controller, Get , Post, Body, Patch, UseGuards, Param} from '@nestjs/common';
+import { Controller, Get , Post, Body, Patch, UseGuards, Param, Query} from '@nestjs/common';
 import {ClienteService} from './cliente.service';
 import {CreateClienteDto} from './dto/create-cliente.dto';
+import {SearchClienteDto} from './dto/search-cliente.dto';
 import {AuthGuard} from '@nestjs/passport';
 import {RolesGuard} from '../usuarios/guards/roles.guard';
 import {Roles} from '../usuarios/roles.decorator';
@@ -14,8 +15,8 @@ export class ClienteController {
     @Get()
     @Roles(Role.ADMIN, Role.USER)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
-    listar(){
-        return this.clienteService.findAll();
+    listar(@Query() query: SearchClienteDto){
+        return this.clienteService.search(query);
     }
 
     @Post()
@@ -26,6 +27,8 @@ export class ClienteController {
 
     }
     @Patch('baja/:id')
+    @Roles(Role.ADMIN)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     async darDeBaja(@Param('id')id: number) {
         return this.clienteService.darDeBaja(id);
     }

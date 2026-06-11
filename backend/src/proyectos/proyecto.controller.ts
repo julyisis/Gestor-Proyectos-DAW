@@ -1,9 +1,9 @@
-import{Controller, Get, Post, Body, UseGuards, Res} from '@nestjs/common';
+import{Controller, Get, Post, Body, UseGuards, Res, Param, Patch, Query} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from '@nestjs/swagger';
-
 import {ProyectoService} from './proyecto.service';
 import {CreateProyectoDto} from './dto/create-proyecto.dto';
+import {SearchProyectoDto} from './dto/search-proyecto.dto';
 import {RolesGuard} from '../usuarios/guards/roles.guard';
 import {Role} from '../usuarios/usuario.roles.enum';
 import { Roles } from '../usuarios/roles.decorator';
@@ -16,8 +16,8 @@ export class ProyectoController {
     @Get()
     @Roles(Role.ADMIN)
     @UseGuards(AuthGuard('jwt'), RolesGuard) 
-    listar() {
-        return this.proyectoService.findAll();
+    listar(@Query() query: SearchProyectoDto) {
+        return this.proyectoService.search(query);
     }
 
     @Post()
@@ -37,5 +37,19 @@ export class ProyectoController {
         res.header('Content-Type', 'text/csv');
         res.attachment('proyectos.csv');
         res.send(csv);
+    }
+
+    @Patch('baja/:id')
+    @Roles(Role.ADMIN)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    darDeBaja(@Param('id') id: number) {
+        return this.proyectoService.darDeBaja(id);
+    }
+
+    @Get(':id')
+    @Roles(Role.ADMIN)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    findOne(@Param('id') id: number) {
+        return this.proyectoService.findOne(id);
     }
 }

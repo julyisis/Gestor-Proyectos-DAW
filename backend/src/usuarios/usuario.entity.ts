@@ -11,23 +11,25 @@ export class Usuario {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ name: 'nombre', unique: true, nullable: false })
+    @Column({ name: 'nombreUsuario', unique: true, nullable: false })
     nombreUsuario!: string;
 
     @Column({
         type: 'enum',
         enum: EstadosUsuarios,
+        enumName: 'usuarios_estado_enum',
         default: EstadosUsuarios.ACTIVO
     })
     estado!: EstadosUsuarios;
 
-    @Column({ name: 'clave', select: false })
+    @Column({ name: 'password', select: false })
     password!: string;
 
     @Column({
         type: 'enum',
-        enum: Role, 
-        default: 'user' 
+        enum: Role,
+        enumName: 'usuarios_rol_enum',
+        default: 'user'
     })
     rol!: string; 
 }

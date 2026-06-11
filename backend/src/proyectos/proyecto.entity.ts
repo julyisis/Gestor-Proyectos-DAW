@@ -12,18 +12,19 @@ export class Proyecto {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ name:'nombre', unique: true, nullable: false})
+    @Column({ name:'nombreProyecto', unique: true, nullable: false})
     nombreProyecto!: string;
 
     @Column({
         type: 'enum',
         enum: EstadosProyectos,
+        enumName: 'proyectos_estado_enum',
         default: EstadosProyectos.ACTIVO,
     })
     estado!: EstadosProyectos;
 
     @ManyToOne(() => Cliente, (cliente) => cliente.proyectos,{nullable: true})
-    @JoinColumn({name: "id_cliente"})
+    @JoinColumn({name: "clienteId"})
     cliente!: Cliente;
 
     @OneToMany(() => Tarea, (tarea) => tarea.proyecto)
