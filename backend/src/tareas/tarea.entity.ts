@@ -16,15 +16,13 @@ export enum EstadosTareas {
         descripcion! : string;
 
         @Column({
-            name: "estado",type: 'enum',enum: EstadosTareas, default: EstadosTareas.PENDIENTE})
+            name: "estado", type: 'enum', enum: EstadosTareas, enumName: 'tareas_estado_enum', default: EstadosTareas.PENDIENTE})
         estado! : EstadosTareas;
 
-        @Column({name: "id_proyecto"})
+        @Column({name: "proyectoId"})
         idProyecto!: number;
 
         @ManyToOne(() => Proyecto, (proyecto: Proyecto) => proyecto.tareas)
-        @JoinColumn ({name: "id_proyecto"})
-        proyecto!: Proyecto;
-        
+        @JoinColumn ({name: "proyectoId"})
+        proyecto!: Proyecto;        
     }
-

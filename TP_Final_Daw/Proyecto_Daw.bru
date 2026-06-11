@@ -5,17 +5,21 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/proyectos
+  url: {{baseUrl}}/proyectos
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
     "nombreProyecto": "Control de Stock DAW",
-    "estado" :"ACTIVO",
-    "cliente" : 1
-  } 
+    "estado": "ACTIVO",
+    "clienteId": 1
+  }
 }
 
 settings {

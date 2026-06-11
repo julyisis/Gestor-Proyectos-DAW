@@ -5,17 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/proyectos
+  url: {{baseUrl}}/proyectos
   body: none
   auth: bearer
 }
 
-headers {
-  x-role: ADMIN
-}
-
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1bGlfYWRtaW4iLCJzdWIiOjEsInJvbCI6ImFkbWluIiwiaWF0IjoxNzc5NzU2MDE3LCJleHAiOjE3Nzk3NTk2MTd9.p1A4z5A_8qznohlNTqYK1fsLDaGK5Y0F2t52BF274k0
+  token: {{token}}
 }
 
 settings {

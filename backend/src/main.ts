@@ -7,7 +7,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-    app.use(helmet());
+  app.use(helmet());
+  
+  app.enableCors({
+    origin: ['http://localhost:4200', 'http://localhost'],
+    credentials: true,
+  });
 
   const globalPrefix = 'api';
 
@@ -19,7 +24,7 @@ async function bootstrap() {
   });
 
   app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true}),
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true}),
   );
 
   if (process.env.SWAGGER_HABILITADO === 'true') {

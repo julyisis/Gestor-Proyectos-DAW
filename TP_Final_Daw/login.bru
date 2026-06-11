@@ -5,15 +5,21 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/auth/login
+  url: {{baseUrl}}/auth/login
   body: json
-  auth: inherit
+  auth: none
 }
 
 body:json {
   {
     "nombreUsuario": "juli_admin",
     "password": "123"
+  }
+}
+
+script:post-response {
+  if (res.body.access_token) {
+    bru.setEnvVar("token", res.body.access_token);
   }
 }
 

@@ -21,7 +21,7 @@ export class UsuariosService {
         
         const nuevo = new Usuario();
         nuevo.nombreUsuario = data.nombreUsuario;
-        nuevo.password = data.password;
+        nuevo.password = await bcrypt.hash(data.password, 10);
         nuevo.estado = data.estado;
         nuevo.rol = data.rol;
         
