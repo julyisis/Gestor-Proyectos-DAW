@@ -1,10 +1,9 @@
-import { Body, Controller,Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller,Param, Post, Put, UseGuards, Get, Res } from "@nestjs/common";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { AuthGuard } from "../auths/auth.guard";
 import { TareasService } from "./tarea.service";
 import { UpdateTareaDto } from "./dto/update-tarea.dto";
 import { CreateTareaDto } from "./dto/create-tarea.dto";
-import { AuthModule } from '../auths/auth.module';
 
 @Controller('proyectos/:idProyecto/tareas')
 export class TareasController {
@@ -27,5 +26,16 @@ export class TareasController {
 
         await this.tareasService.actualizarTarea(dto, id);
     }
+
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @Get('export/csv')
+    async exportarTareasCsv(@Res() res: any): Promise<void> {
+        const csv = await this.tareasService.exportarTareasCsv();
+
+        res.header('Content-Type', 'text/csv');
+        res.attachment('tareas.csv');
+        res.send(csv);
+}
 
 }
