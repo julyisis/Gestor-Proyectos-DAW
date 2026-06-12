@@ -162,7 +162,6 @@ Desde PowerShell, parate en la carpeta del proyecto y arrancá nginx indicando e
 
 ```powershell
 cd C:\ruta\a\final-daw
-nginx -p $PWD -c C:\nginx\conf\nginx.conf
 ```
 
 Si `nginx` no está en el PATH:
